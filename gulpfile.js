@@ -8,11 +8,15 @@ const wiredep = require('wiredep').stream;
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
+// added
+
+const ftp = require('vinyl-ftp');
+const gutil = require('gulp-util');
+const minimist = require('minimist');
+const realFavicon = require ('gulp-real-favicon');
+const fs = require('fs');
+
 // favicon.ico generator ------------------------------------------------------------------------------------------------------
-
-
-var realFavicon = require ('gulp-real-favicon');
-var fs = require('fs');
 
 // File where the favicon markups are stored
 var FAVICON_DATA_FILE = 'faviconData.json';
@@ -85,6 +89,23 @@ gulp.task('generate-favicon', function(done) {
   }, function() {
     done();
   });
+});
+
+//
+// DEPLOY TO SERVER
+//
+
+gulp.task('deploy', function() {
+  var args = minimist(process.argv.slice(2));
+  var remotePath = '/';
+  var conn = ftp.create({
+    host: 'ftp.hirealexgrace.com',
+    user: args.user,
+    password: args.password
+    });
+  gulp.src(['dist/**'])
+    .pipe(conn.newer(remotePath))
+    .pipe(conn.dest(remotePath));
 });
 
 // Inject the favicon markups in your HTML pages. You should run
