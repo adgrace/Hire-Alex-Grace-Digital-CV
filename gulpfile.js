@@ -12,6 +12,10 @@ const reload = browserSync.reload;
 const cssimport = require("gulp-cssimport");
 var options = {};
 
+
+const imagemin = require('gulp-imagemin');
+const pngquant = require('imagemin-pngquant');
+
 const ftp = require('vinyl-ftp');
 const gutil = require('gulp-util');
 const minimist = require('minimist');
@@ -188,13 +192,22 @@ gulp.task('html', ['styles', 'scripts'], () => {
 
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
-    .pipe($.imagemin({
+    .pipe($.cache($.imagemin({
       optimizationLevel: 3,
       progressive: true,
       interlaced: true,
       // don't remove IDs from SVGs, they are often used
       // as hooks for embedding and styling
       svgoPlugins: [{cleanupIDs: false}]
+    })))
+    .pipe(gulp.dest('dist/images'));
+});
+
+gulp.task('imagemin', function () {
+  return gulp.src('app/images/**/*')
+    .pipe($.imagemin({
+      progressive: true,
+      use: [pngquant()]
     }))
     .pipe(gulp.dest('dist/images'));
 });
@@ -285,7 +298,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'downloads', 'fonts', 'generate-favicon', 'inject-favicon-markups', 'extras'], () => {
+gulp.task('build', ['lint', 'html', 'imagemin', 'downloads', 'fonts', 'generate-favicon', 'inject-favicon-markups', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
