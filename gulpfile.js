@@ -9,6 +9,9 @@ const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
 // added
+const cssimport = require("gulp-cssimport");
+var options = {};
+
 const ftp = require('vinyl-ftp');
 const gutil = require('gulp-util');
 const minimist = require('minimist');
@@ -177,6 +180,7 @@ gulp.task('html', ['styles', 'scripts'], () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
+    .pipe($.if('*.css', $.cssimport(options)))
     .pipe($.if('*.css', $.cssnano({safe: true, autoprefixer: false})))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
