@@ -9,13 +9,6 @@ const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
 // added
-
-const source = require('vinyl-source-stream');
-const request = require('request');
-const merge = require('merge2');
-const concat = require('gulp-concat');
-const buffer = require('gulp-buffer');
-
 const ftp = require('vinyl-ftp');
 const gutil = require('gulp-util');
 const minimist = require('minimist');
