@@ -62,7 +62,7 @@ $(document).ready(function() {
             });
         },
         initialCountry: 'auto',
-        utilsScript: 'scripts/utils.js'
+        utilsScript: 'scripts/main.js'
     });
     
     $('.dropdown-toggle').click(function() {

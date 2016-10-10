@@ -2,5 +2,34 @@
   "name": "digital-cv",
   "private": true,
   "dependencies": {
+    "moment": "^2.15.1",
+    "jquery-quickfit": "chunksnbits/jquery-quickfit",
+    "font-awesome": "fontawesome#~4.5",
+    "bootstrap-validator": "^0.11.5",
+    "jquery-bar-rating": "^1.2.1",
+    "intl-tel-input": "^9.2.2",
+    "matchHeight": "matchheight#^0.7.0",
+    "smalot-bootstrap-datetimepicker": "smalot/bootstrap-datetimepicker#^2.3.11",
+    "bootswatch-dist": "readable",
+    "bootstrap-social": "^5.0.0"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js",
+        "dist/fonts/*"
+      ]
+    },
+    "font-awesome": {
+		"main": [
+			"./fonts/*"
+		]
+	}
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.0"
   }
 }
