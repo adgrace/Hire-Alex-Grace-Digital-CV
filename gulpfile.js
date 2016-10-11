@@ -123,7 +123,7 @@ gulp.task('deploy', function() {
 // Inject the favicon markups in your HTML pages. You should run
 // this task whenever you modify a page. You can keep this task
 // as is or refactor your existing HTML pipeline.
-gulp.task('inject-favicon-markups', ['html', 'generate-favicon'] function() {
+gulp.task('inject-favicon-markups', ['html', 'generate-favicon'], function() {
   gulp.src([ 'dist/*.html' ])
     .pipe(realFavicon.injectFaviconMarkups(JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).favicon.html_code))
     .pipe(gulp.dest('dist'));
