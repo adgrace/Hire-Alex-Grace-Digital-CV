@@ -199,10 +199,65 @@ gulp.task('resize-chew', function() {
         width: 109,
         height: 126
       }))
+    .pipe(gulp.dest('app/images'));
 });
 
-gulp.task('resize-images', () => {
-  gulp.src('app/images/*.png')
+gulp.task('resize-deutsche', function() {
+  return gulp.src('app/images/deutsche-logo.png')
+    .pipe(imageResize({
+        width: 228,
+        height: 44
+      }))
+    .pipe(gulp.dest('app/images'));
+});
+
+gulp.task('resize-hollister', function() {
+  return gulp.src('app/images/hollister-logo.png')
+    .pipe(imageResize({
+        width: 88,
+        height: 44
+      }))
+    .pipe(gulp.dest('app/images'));
+});
+
+gulp.task('resize-jpmorganchase', function() {
+  return gulp.src('app/images/jpmorganchase-logo.png')
+    .pipe(imageResize({
+        width: 364,
+        height: 44
+      }))
+    .pipe(gulp.dest('app/images'));
+});
+
+gulp.task('resize-surrey', function() {
+  return gulp.src('app/images/surrey-logo.png')
+    .pipe(imageResize({
+        width: 398,
+        height: 118
+      }))
+    .pipe(gulp.dest('app/images'));
+});
+
+gulp.task('resize-tribe', function() {
+  return gulp.src('app/images/tribe-logo.png')
+    .pipe(imageResize({
+        width: 265,
+        height: 96
+      }))
+    .pipe(gulp.dest('app/images'));
+});
+
+gulp.task('resize-waitrose', function() {
+  return gulp.src('app/images/waitrose-logo.png')
+    .pipe(imageResize({
+        width: 213,
+        height: 44
+      }))
+    .pipe(gulp.dest('app/images'));
+});
+
+/*gulp.task('resize-images', () => {
+  return gulp.src('app/images/*.png')
     .pipe(imageResize({
       'chew-logo.png': {
         width: 109,
@@ -233,9 +288,10 @@ gulp.task('resize-images', () => {
         height: 44
       }
     }))
-});
+    .pipe(gulp.dest('app/images'));
+});*/
 
-gulp.task('images', ['resize-chew'], function () {
+gulp.task('images', ['resize-chew', 'resize-deutsche', 'resize-hollister', 'resize-jpmorganchase', 'resize-surrey', 'resize-tribe', 'resize-waitrose'], () => {
   return gulp.src('app/images/**/*')
     .pipe(imagemin({
       progressive: true,
