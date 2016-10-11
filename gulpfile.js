@@ -15,6 +15,9 @@ var options = {};
 
 const imagemin = require('gulp-imagemin');
 const pngquant = require('imagemin-pngquant');
+const optipng = require('gulp-optipng');
+var options = ['-o5'];
+var responsive = require('gulp-responsive');
 
 const ftp = require('vinyl-ftp');
 const gutil = require('gulp-util');
@@ -190,24 +193,46 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('images', () => {
-  return gulp.src('app/images/**/*')
-    .pipe($.cache($.imagemin({
-      optimizationLevel: 3,
-      progressive: true,
-      interlaced: true,
-      // don't remove IDs from SVGs, they are often used
-      // as hooks for embedding and styling
-      svgoPlugins: [{cleanupIDs: false}]
-    })))
-    .pipe(gulp.dest('dist/images'));
+gulp.task('resize-images', () => {
+  return gulp.src('app/images/*.png')
+    .pipe(responsive({
+      'chew-logo.png': {
+        width: 109,
+        height: 126
+      },
+      'deutsche-logo.png': {
+        width: 228,
+        height: 44
+      },
+      'hollister-logo.png': {
+        width: 88,
+        height: 44
+      },
+      'jpmorganchase-logo.png': {
+        width: 364,
+        height: 44
+      },
+      'surrey-logo.png': {
+        width: 398,
+        height: 118
+      },
+      'tribe-logo.png': {
+        width: 265,
+        height: 96
+      },
+      'waitrose-logo.png': {
+        width: 213,
+        height: 44
+      }
+    }))
 });
 
-gulp.task('imagemin', function () {
+gulp.task('images', ['resize-images'], function () {
   return gulp.src('app/images/**/*')
-    .pipe($.imagemin({
+    .pipe(imagemin({
       progressive: true,
-      use: [pngquant()]
+      svgoPlugins: [{removeViewBox: false}],
+      use: [pngquant(), optipng(options)]
     }))
     .pipe(gulp.dest('dist/images'));
 });
@@ -298,7 +323,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'imagemin', 'downloads', 'fonts', 'generate-favicon', 'inject-favicon-markups', 'extras'], () => {
+gulp.task('build', ['lint', 'html', 'images', 'downloads', 'fonts', 'generate-favicon', 'inject-favicon-markups', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
