@@ -14,8 +14,7 @@ var options = {};
 const uncss = require('gulp-uncss');
 const glob = require("glob");
 const rename = require("gulp-rename");
-const bust = require('gulp-buster');
-
+const md5 = require("gulp-md5-assets");
 
 const imagemin = require('gulp-imagemin');
 const pngquant = require('imagemin-pngquant');
@@ -124,7 +123,7 @@ gulp.task('deploy', function() {
 // Inject the favicon markups in your HTML pages. You should run
 // this task whenever you modify a page. You can keep this task
 // as is or refactor your existing HTML pipeline.
-gulp.task('inject-favicon-markups', function() {
+gulp.task('inject-favicon-markups', ['html', 'generate-favicon'] function() {
   gulp.src([ 'dist/*.html' ])
     .pipe(realFavicon.injectFaviconMarkups(JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).favicon.html_code))
     .pipe(gulp.dest('dist'));
@@ -187,94 +186,103 @@ gulp.task('lint:test', () => {
     .pipe(gulp.dest('test/spec/**/*.js'));
 });
 
-gulp.task('html', ['styles', 'scripts'], () => {
+gulp.task('html', ['styles', 'scripts', 'images', 'downloads'], () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.js', $.rename('main.min.js')))
+    .pipe($.if('*.js', $.md5(10,'apps/index.html')))
     .pipe($.if('*.css', $.cssimport(options)))
     .pipe($.if('*.css', $.uncss({html: glob.sync("app/index.html")})))
     .pipe($.if('*.css', $.cssnano({safe: true, autoprefixer: false})))
     .pipe($.if('*.css', $.rename('main.min.css')))
+    .pipe($.if('*.css', $.md5(10,'apps/index.html')))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('resize-chew', function() {
-  return gulp.src('app/images/chew-logo.png')
+gulp.task('resize-chew', ['preimage'], function() {
+  return gulp.src('.tmp/images/chew-logo.png')
     .pipe(imageResize({
         width: 109,
         height: 126
       }))
-    .pipe(gulp.dest('app/images'));
+    .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('resize-deutsche', function() {
-  return gulp.src('app/images/deutsche-logo.png')
+gulp.task('resize-deutsche', ['preimage'], function() {
+  return gulp.src('.tmp/images/deutsche-logo.png')
     .pipe(imageResize({
         width: 228,
         height: 44
       }))
-    .pipe(gulp.dest('app/images'));
+    .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('resize-hollister', function() {
-  return gulp.src('app/images/hollister-logo.png')
+gulp.task('resize-hollister', ['preimage'], function() {
+  return gulp.src('.tmp/images/hollister-logo.png')
     .pipe(imageResize({
         width: 88,
         height: 44
       }))
-    .pipe(gulp.dest('app/images'));
+    .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('resize-jpmorganchase', function() {
-  return gulp.src('app/images/jpmorganchase-logo.png')
+gulp.task('resize-jpmorganchase', ['preimage'], function() {
+  return gulp.src('.tmp/images/jpmorganchase-logo.png')
     .pipe(imageResize({
         width: 364,
         height: 44
       }))
-    .pipe(gulp.dest('app/images'));
+    .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('resize-surrey', function() {
-  return gulp.src('app/images/surrey-logo.png')
+gulp.task('resize-surrey', ['preimage'], function() {
+  return gulp.src('.tmp/images/surrey-logo.png')
     .pipe(imageResize({
         width: 398,
         height: 118
       }))
-    .pipe(gulp.dest('app/images'));
+    .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('resize-tribe', function() {
-  return gulp.src('app/images/tribe-logo.png')
+gulp.task('resize-tribe', ['preimage'], function() {
+  return gulp.src('.tmp/images/tribe-logo.png')
     .pipe(imageResize({
         width: 265,
         height: 96
       }))
-    .pipe(gulp.dest('app/images'));
+    .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('resize-waitrose', function() {
-  return gulp.src('app/images/waitrose-logo.png')
+gulp.task('resize-waitrose', ['preimage'], function() {
+  return gulp.src('.tmp/images/waitrose-logo.png')
     .pipe(imageResize({
         width: 213,
         height: 44
       }))
-    .pipe(gulp.dest('app/images'));
+    .pipe(gulp.dest('.tmp/images'));
+});
+
+gulp.task('preimage', () => {
+  return gulp.src('app/images/**/*')
+    .pipe(gulp.dest('.tmp/images'));
 });
 
 gulp.task('images', ['resize-chew', 'resize-deutsche', 'resize-hollister', 'resize-jpmorganchase', 'resize-surrey', 'resize-tribe', 'resize-waitrose'], () => {
-  return gulp.src('app/images/**/*')
+  return gulp.src('.tmp/images/**/*')
     .pipe(imagemin({
       progressive: true,
       svgoPlugins: [{removeViewBox: false}],
       use: [pngquant(), optipng(options)]
     }))
+    .pipe(md5(10,'apps/index.html'))
     .pipe(gulp.dest('dist/images'));
 });
 
 gulp.task('downloads', () => {
   return gulp.src('app/downloads/**/*')
+    .pipe(md5(10,'apps/index.html'))
     .pipe(gulp.dest('dist/downloads'));
 });
 
@@ -359,10 +367,8 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'downloads', 'fonts', 'generate-favicon', 'inject-favicon-markups', 'extras'], () => {
+gulp.task('build', ['lint', 'fonts', 'generate-favicon', 'extras'], () => {
   return gulp.src('dist/**/*')
-  //  .pipe(bust())
-  //  .pipe(gulp.dest('.'))
     .pipe($.size({title: 'build', gzip: true}));
 });
 
