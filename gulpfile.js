@@ -193,25 +193,16 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe(gulp.dest('dist'));
 });
 
-/*gulp.task('resize-chew', function() {
+gulp.task('resize-chew', function() {
   return gulp.src('app/images/chew-logo.png')
-    .pipe(imageResize({ width: 1920 }))
-    .pipe(imagemin({
-      progressive: true
-    }))
-    .pipe(gulp.dest('./_site/public/img')) // move this line to before the gulp.dest
-    .pipe(rename({
-      suffix: '@2x'
-    }))
-    .pipe(imageResize({ width: 960 }))
-    .pipe(imagemin({
-      progressive: true
-    }))
-    .pipe(gulp.dest('./_site/public/img'))
-});*/
+    .pipe(imageResize({
+        width: 109,
+        height: 126
+      }))
+});
 
 gulp.task('resize-images', () => {
-  return gulp.src('app/images/*.png')
+  gulp.src('app/images/*.png')
     .pipe(imageResize({
       'chew-logo.png': {
         width: 109,
@@ -244,7 +235,7 @@ gulp.task('resize-images', () => {
     }))
 });
 
-gulp.task('images', ['resize-images'], function () {
+gulp.task('images', ['resize-chew'], function () {
   return gulp.src('app/images/**/*')
     .pipe(imagemin({
       progressive: true,
