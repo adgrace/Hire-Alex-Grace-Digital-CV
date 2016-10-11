@@ -256,41 +256,6 @@ gulp.task('resize-waitrose', function() {
     .pipe(gulp.dest('app/images'));
 });
 
-/*gulp.task('resize-images', () => {
-  return gulp.src('app/images/*.png')
-    .pipe(imageResize({
-      'chew-logo.png': {
-        width: 109,
-        height: 126
-      },
-      'deutsche-logo.png': {
-        width: 228,
-        height: 44
-      },
-      'hollister-logo.png': {
-        width: 88,
-        height: 44
-      },
-      'jpmorganchase-logo.png': {
-        width: 364,
-        height: 44
-      },
-      'surrey-logo.png': {
-        width: 398,
-        height: 118
-      },
-      'tribe-logo.png': {
-        width: 265,
-        height: 96
-      },
-      'waitrose-logo.png': {
-        width: 213,
-        height: 44
-      }
-    }))
-    .pipe(gulp.dest('app/images'));
-});*/
-
 gulp.task('images', ['resize-chew', 'resize-deutsche', 'resize-hollister', 'resize-jpmorganchase', 'resize-surrey', 'resize-tribe', 'resize-waitrose'], () => {
   return gulp.src('app/images/**/*')
     .pipe(imagemin({
