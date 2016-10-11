@@ -361,8 +361,8 @@ gulp.task('wiredep', () => {
 
 gulp.task('build', ['lint', 'html', 'images', 'downloads', 'fonts', 'generate-favicon', 'inject-favicon-markups', 'extras'], () => {
   return gulp.src('dist/**/*')
-    .pipe(bust())
-    .pipe(gulp.dest('.'))
+  //  .pipe(bust())
+  //  .pipe(gulp.dest('.'))
     .pipe($.size({title: 'build', gzip: true}));
 });
 
