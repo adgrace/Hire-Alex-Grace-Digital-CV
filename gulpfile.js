@@ -14,6 +14,7 @@ var options = {};
 const uncss = require('gulp-uncss');
 const glob = require("glob");
 const rename = require("gulp-rename");
+const bust = require('gulp-buster');
 
 
 const imagemin = require('gulp-imagemin');
@@ -359,7 +360,10 @@ gulp.task('wiredep', () => {
 });
 
 gulp.task('build', ['lint', 'html', 'images', 'downloads', 'fonts', 'generate-favicon', 'inject-favicon-markups', 'extras'], () => {
-  return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
+  return gulp.src('dist/**/*')
+    .pipe(bust())
+    .pipe(gulp.dest('.'))
+    .pipe($.size({title: 'build', gzip: true}));
 });
 
 gulp.task('default', ['clean'], () => {
