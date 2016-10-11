@@ -17,7 +17,7 @@ const imagemin = require('gulp-imagemin');
 const pngquant = require('imagemin-pngquant');
 const optipng = require('gulp-optipng');
 var options = ['-o5'];
-var responsive = require('gulp-responsive');
+const imageResize = require('gulp-image-resize');
 
 const ftp = require('vinyl-ftp');
 const gutil = require('gulp-util');
@@ -193,9 +193,26 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe(gulp.dest('dist'));
 });
 
+/*gulp.task('resize-chew', function() {
+  return gulp.src('app/images/chew-logo.png')
+    .pipe(imageResize({ width: 1920 }))
+    .pipe(imagemin({
+      progressive: true
+    }))
+    .pipe(gulp.dest('./_site/public/img')) // move this line to before the gulp.dest
+    .pipe(rename({
+      suffix: '@2x'
+    }))
+    .pipe(imageResize({ width: 960 }))
+    .pipe(imagemin({
+      progressive: true
+    }))
+    .pipe(gulp.dest('./_site/public/img'))
+});*/
+
 gulp.task('resize-images', () => {
   return gulp.src('app/images/*.png')
-    .pipe(responsive({
+    .pipe(imageResize({
       'chew-logo.png': {
         width: 109,
         height: 126
