@@ -11,6 +11,9 @@ const reload = browserSync.reload;
 // added
 const cssimport = require("gulp-cssimport");
 var options = {};
+const uncss = require('gulp-uncss');
+const glob = require("glob");
+const rename = require("gulp-rename");
 
 
 const imagemin = require('gulp-imagemin');
@@ -187,8 +190,11 @@ gulp.task('html', ['styles', 'scripts'], () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
+    .pipe($.if('*.js', $.rename('main.min.js')))
     .pipe($.if('*.css', $.cssimport(options)))
+    .pipe($.if('*.css', $.uncss({html: glob.sync("_site/**/*.html")})))
     .pipe($.if('*.css', $.cssnano({safe: true, autoprefixer: false})))
+    .pipe($.if('*.css', $.rename('main.min.css')))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 });
