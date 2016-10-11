@@ -193,7 +193,7 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.js', $.rename('main.min.js')))
     .pipe($.if('*.css', $.cssimport(options)))
-    .pipe($.if('*.css', $.uncss({html: glob.sync("_site/**/*.html")})))
+    .pipe($.if('*.css', $.uncss({html: glob.sync("app/index.html")})))
     .pipe($.if('*.css', $.cssnano({safe: true, autoprefixer: false})))
     .pipe($.if('*.css', $.rename('main.min.css')))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
