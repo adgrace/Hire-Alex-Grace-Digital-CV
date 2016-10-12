@@ -123,7 +123,7 @@ gulp.task('deploy', function() {
 // Inject the favicon markups in your HTML pages. You should run
 // this task whenever you modify a page. You can keep this task
 // as is or refactor your existing HTML pipeline.
-gulp.task('inject-favicon-markups', ['html', 'generate-favicon'], function() {
+gulp.task('inject-favicon-markups', ['html-cachecontrol', 'generate-favicon'], function() {
   gulp.src([ 'dist/*.html' ])
     .pipe(realFavicon.injectFaviconMarkups(JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).favicon.html_code))
     .pipe(gulp.dest('dist'));
@@ -191,13 +191,21 @@ gulp.task('html', ['styles', 'scripts', 'images', 'downloads'], () => {
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
    // .pipe($.if('*.js', md5(10,'apps/index.html')))
-    .pipe($.if('*.js', $.rename({suffix: '.min'})))
+   // .pipe($.if('*.js', $.rename({suffix: '.min'})))
     .pipe($.if('*.css', $.cssimport(options)))
     .pipe($.if('*.css', $.uncss({html: glob.sync("app/index.html")})))
     .pipe($.if('*.css', $.cssnano({safe: true, autoprefixer: false})))
   //  .pipe($.if('*.css', md5(10,'apps/index.html')))
-    .pipe($.if('*.css', $.rename({suffix: '.min'})))
+  //  .pipe($.if('*.css', $.rename({suffix: '.min'})))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('html-cachecontrol', ['html'], () => {
+  return gulp.src('dist/*.html')
+    .pipe($.useref({searchPath: ['dist']}))
+    .pipe($.if('*.js', md5(10,'dist/index.html')))
+    .pipe($.if('*.css', md5(10,'dist/index.html')))
     .pipe(gulp.dest('dist'));
 });
 
