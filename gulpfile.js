@@ -12,6 +12,8 @@ const reload = browserSync.reload;
 const cssimport = require("gulp-cssimport");
 var options = {};
 const uncss = require('gulp-uncss');
+const cmq = require('gulp-combine-media-queries');
+const inlineCss = require('gulp-inline-css');
 const glob = require("glob");
 const rename = require("gulp-rename");
 const md5 = require("gulp-md5-plus");
@@ -192,7 +194,9 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.cssimport(options)))
     .pipe($.if('*.css', $.uncss({html: glob.sync("app/index.html")})))
+    .pipe($.if('*.css', $.cmq({log: true})))
     .pipe($.if('*.css', $.cssnano({safe: true, autoprefixer: false})))
+    .pipe($.if('*.html', $.inlineCss()))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 });
