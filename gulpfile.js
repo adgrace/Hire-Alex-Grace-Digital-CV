@@ -194,7 +194,7 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.cssimport(options)))
     .pipe($.if('*.css', $.uncss({html: glob.sync("app/index.html")})))
-    .pipe($.if('*.css', mmq({log: true})))
+    //.pipe($.if('*.css', mmq({log: true})))
     .pipe($.if('*.css', $.cssnano({safe: true, autoprefixer: false})))
    // .pipe($.if('*.html', $.inlineCss()))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
