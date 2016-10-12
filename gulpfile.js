@@ -190,13 +190,13 @@ gulp.task('html', ['styles', 'scripts', 'images', 'downloads'], () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
-    .pipe($.if('*.js', $.rename({suffix: '.min'})))
     .pipe($.if('*.js', md5(10,'apps/index.html')))
+    .pipe($.if('*.js', $.rename({suffix: '.min'})))
     .pipe($.if('*.css', $.cssimport(options)))
     .pipe($.if('*.css', $.uncss({html: glob.sync("app/index.html")})))
     .pipe($.if('*.css', $.cssnano({safe: true, autoprefixer: false})))
-    .pipe($.if('*.css', $.rename({suffix: '.min'})))
     .pipe($.if('*.css', md5(10,'apps/index.html')))
+    .pipe($.if('*.css', $.rename({suffix: '.min'})))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 });
@@ -272,7 +272,7 @@ gulp.task('resize-waitrose', ['preimage'], function() {
 });
 
 gulp.task('preimage', () => {
-  return gulp.src('app/images/**/*')
+  return gulp.src('app/images/*/*.png')
     .pipe(gulp.dest('.tmp/images'));
 });
 
