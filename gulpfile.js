@@ -14,7 +14,7 @@ var options = {};
 const uncss = require('gulp-uncss');
 const glob = require("glob");
 const rename = require("gulp-rename");
-const md5 = require("gulp-md5-assets");
+const md5 = require("gulp-md5-plus");
 
 const imagemin = require('gulp-imagemin');
 const pngquant = require('imagemin-pngquant');
@@ -207,6 +207,7 @@ gulp.task('resize-chew', ['preimage'], function() {
         width: 109,
         height: 126
       }))
+    .pipe(md5(10,'apps/index.html'))
     .pipe(gulp.dest('.tmp/images'));
 });
 
@@ -216,6 +217,7 @@ gulp.task('resize-deutsche', ['preimage'], function() {
         width: 228,
         height: 44
       }))
+    .pipe(md5(10,'apps/index.html'))
     .pipe(gulp.dest('.tmp/images'));
 });
 
@@ -225,6 +227,7 @@ gulp.task('resize-hollister', ['preimage'], function() {
         width: 88,
         height: 44
       }))
+    .pipe(md5(10,'apps/index.html'))
     .pipe(gulp.dest('.tmp/images'));
 });
 
@@ -234,6 +237,7 @@ gulp.task('resize-jpmorganchase', ['preimage'], function() {
         width: 364,
         height: 44
       }))
+    .pipe(md5(10,'apps/index.html'))
     .pipe(gulp.dest('.tmp/images'));
 });
 
@@ -243,6 +247,7 @@ gulp.task('resize-surrey', ['preimage'], function() {
         width: 398,
         height: 118
       }))
+    .pipe(md5(10,'apps/index.html'))
     .pipe(gulp.dest('.tmp/images'));
 });
 
@@ -252,6 +257,7 @@ gulp.task('resize-tribe', ['preimage'], function() {
         width: 265,
         height: 96
       }))
+    .pipe(md5(10,'apps/index.html'))
     .pipe(gulp.dest('.tmp/images'));
 });
 
@@ -261,6 +267,7 @@ gulp.task('resize-waitrose', ['preimage'], function() {
         width: 213,
         height: 44
       }))
+    .pipe(md5(10,'apps/index.html'))
     .pipe(gulp.dest('.tmp/images'));
 });
 
@@ -276,7 +283,6 @@ gulp.task('images', ['resize-chew', 'resize-deutsche', 'resize-hollister', 'resi
       svgoPlugins: [{removeViewBox: false}],
       use: [pngquant(), optipng(options)]
     }))
-    .pipe(md5(10,'apps/index.html'))
     .pipe(gulp.dest('dist/images'));
 });
 
