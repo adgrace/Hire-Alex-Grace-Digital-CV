@@ -190,13 +190,9 @@ gulp.task('html', ['styles', 'scripts', 'images', 'downloads'], () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
-   // .pipe($.if('*.js', md5(10,'apps/index.html')))
-   // .pipe($.if('*.js', $.rename({suffix: '.min'})))
     .pipe($.if('*.css', $.cssimport(options)))
     .pipe($.if('*.css', $.uncss({html: glob.sync("app/index.html")})))
     .pipe($.if('*.css', $.cssnano({safe: true, autoprefixer: false})))
-  //  .pipe($.if('*.css', md5(10,'apps/index.html')))
-  //  .pipe($.if('*.css', $.rename({suffix: '.min'})))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 });
@@ -209,8 +205,8 @@ gulp.task('html-cachecontrol', ['html'], () => {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('resize-chew', ['preimage'], function() {
-  return gulp.src('.tmp/images/chew-logo.png')
+gulp.task('resize-chew', function() {
+  return gulp.src('app/images/chew-logo.png')
     .pipe(imageResize({
         width: 109,
         height: 126
@@ -219,8 +215,8 @@ gulp.task('resize-chew', ['preimage'], function() {
     .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('resize-deutsche', ['preimage'], function() {
-  return gulp.src('.tmp/images/deutsche-logo.png')
+gulp.task('resize-deutsche', function() {
+  return gulp.src('app/images/deutsche-logo.png')
     .pipe(imageResize({
         width: 228,
         height: 44
@@ -229,8 +225,8 @@ gulp.task('resize-deutsche', ['preimage'], function() {
     .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('resize-hollister', ['preimage'], function() {
-  return gulp.src('.tmp/images/hollister-logo.png')
+gulp.task('resize-hollister', function() {
+  return gulp.src('app/images/hollister-logo.png')
     .pipe(imageResize({
         width: 88,
         height: 44
@@ -239,8 +235,8 @@ gulp.task('resize-hollister', ['preimage'], function() {
     .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('resize-jpmorganchase', ['preimage'], function() {
-  return gulp.src('.tmp/images/jpmorganchase-logo.png')
+gulp.task('resize-jpmorganchase', function() {
+  return gulp.src('app/images/jpmorganchase-logo.png')
     .pipe(imageResize({
         width: 364,
         height: 44
@@ -249,8 +245,8 @@ gulp.task('resize-jpmorganchase', ['preimage'], function() {
     .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('resize-surrey', ['preimage'], function() {
-  return gulp.src('.tmp/images/surrey-logo.png')
+gulp.task('resize-surrey', function() {
+  return gulp.src('app/images/surrey-logo.png')
     .pipe(imageResize({
         width: 398,
         height: 118
@@ -259,8 +255,8 @@ gulp.task('resize-surrey', ['preimage'], function() {
     .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('resize-tribe', ['preimage'], function() {
-  return gulp.src('.tmp/images/tribe-logo.png')
+gulp.task('resize-tribe', function() {
+  return gulp.src('app/images/tribe-logo.png')
     .pipe(imageResize({
         width: 265,
         height: 96
@@ -269,8 +265,8 @@ gulp.task('resize-tribe', ['preimage'], function() {
     .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('resize-waitrose', ['preimage'], function() {
-  return gulp.src('.tmp/images/waitrose-logo.png')
+gulp.task('resize-waitrose', function() {
+  return gulp.src('app/images/waitrose-logo.png')
     .pipe(imageResize({
         width: 213,
         height: 44
@@ -284,7 +280,7 @@ gulp.task('preimage', () => {
     .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('images', ['resize-chew', 'resize-deutsche', 'resize-hollister', 'resize-jpmorganchase', 'resize-surrey', 'resize-tribe', 'resize-waitrose'], () => {
+gulp.task('images', ['preimage', 'resize-chew', 'resize-deutsche', 'resize-hollister', 'resize-jpmorganchase', 'resize-surrey', 'resize-tribe', 'resize-waitrose'], () => {
   return gulp.src('.tmp/images/**/*')
     .pipe(imagemin({
       progressive: true,
