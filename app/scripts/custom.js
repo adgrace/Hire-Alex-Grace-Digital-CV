@@ -88,6 +88,7 @@ $(document).ready(function() {
     
     
     $('#contactForm').validator().on('submit', function (e) {
+        console.log('submit');
         if (e.isDefaultPrevented()) {
             // handle the invalid form...
             $('#contactForm').validator('validate');
