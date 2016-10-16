@@ -1,26 +1,22 @@
-// generated on 2016-09-18 using generator-webapp 2.1.0
+// generated on 2016-10-09 using generator-webapp 2.2.0
 const gulp = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
 const browserSync = require('browser-sync');
 const del = require('del');
 const wiredep = require('wiredep').stream;
-
+const runSequence = require('run-sequence');
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
-
 // added
 const cssimport = require("gulp-cssimport");
-var options = {};
 const glob = require("glob");
 const rename = require("gulp-rename");
 const md5 = require("gulp-md5-plus");
-
 const imagemin = require('gulp-imagemin');
 const pngquant = require('imagemin-pngquant');
 const optipng = require('gulp-optipng');
-var options = ['-o5'];
-const imageResize = require('gulp-image-resize');
-
+var optoptions = ['-o5'];
+const responsive = require('gulp-responsive');
 const ftp = require('vinyl-ftp');
 const gutil = require('gulp-util');
 const minimist = require('minimist');
@@ -28,7 +24,6 @@ const realFavicon = require ('gulp-real-favicon');
 const fs = require('fs');
 
 // favicon.ico generator ------------------------------------------------------------------------------------------------------
-
 // File where the favicon markups are stored
 var FAVICON_DATA_FILE = 'faviconData.json';
 
@@ -102,46 +97,17 @@ gulp.task('generate-favicon', function(done) {
   });
 });
 
-//
-// DEPLOY TO SERVER
-//
-
-gulp.task('deploy', function() {
-  var args = minimist(process.argv.slice(2));
-  var remotePath = '/';
-  var conn = ftp.create({
-    host: 'ftp.hirealexgrace.com',
-    user: args.user,
-    password: args.password
-    });
-  gulp.src(['dist/**'])
-    .pipe(conn.newer(remotePath))
-    .pipe(conn.dest(remotePath));
-});
-
 // Inject the favicon markups in your HTML pages. You should run
 // this task whenever you modify a page. You can keep this task
 // as is or refactor your existing HTML pipeline.
-gulp.task('inject-favicon-markups', ['html-cachecontrol'], function() {
-  gulp.src([ 'dist/*.html' ])
+gulp.task('inject-favicon-markups', ['generate-favicon'], function() {
+  gulp.src([ 'app/*.html' ])
     .pipe(realFavicon.injectFaviconMarkups(JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).favicon.html_code))
-    .pipe(gulp.dest('dist'));
-});
-
-// Check for updates on RealFaviconGenerator (think: Apple has just
-// released a new Touch icon along with the latest version of iOS).
-// Run this task from time to time. Ideally, make it part of your
-// continuous integration system.
-gulp.task('check-for-favicon-update', function(done) {
-  var currentVersion = JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).version;
-  realFavicon.checkForUpdates(currentVersion, function(err) {
-    if (err) {
-      throw err;
-    }
-  });
+    .pipe(gulp.dest('.tmp/*.html'));
 });
 
 //------------------------------------------------------------------------------------------------------------------------
+
 gulp.task('styles', () => {
   return gulp.src('app/styles/*.css')
     .pipe($.sourcemaps.init())
@@ -182,103 +148,64 @@ gulp.task('lint:test', () => {
       mocha: true
     }
   })
-    .pipe(gulp.dest('test/spec/**/*.js'));
+    .pipe(gulp.dest('test/spec'));
 });
 
-gulp.task('html', ['styles', 'scripts'], () => {
+gulp.task('html', ['styles', 'scripts', 'inject-favicon-markups'], () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
-    .pipe($.if('*.css', $.cssimport(options)))
+    .pipe($.if('*.css', $.cssimport({})))
     .pipe($.if('*.css', $.cssnano({safe: true, autoprefixer: false})))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('html-cachecontrol', ['html', 'images', 'downloads'], () => {
-  return gulp.src('dist/*.html')
-    .pipe($.useref({searchPath: ['dist']}))
-    .pipe($.if('*.pdf', md5(10,'dist/index.html')))
-    .pipe($.if('*-logo.png', md5(10,'dist/index.html')))
-    .pipe($.if('*.js', md5(10,'dist/index.html')))
-    .pipe($.if('*.css', md5(10,'dist/index.html')))
-    .pipe(gulp.dest('dist'));
-});
-
-gulp.task('resize-chew', function() {
-  return gulp.src('app/images/chew-logo.png')
-    .pipe(imageResize({
-        width: 109,
-        height: 126
-      }))
-    .pipe(gulp.dest('.tmp/images'));
-});
-
-gulp.task('resize-deutsche', function() {
-  return gulp.src('app/images/deutsche-logo.png')
-    .pipe(imageResize({
-        width: 228,
-        height: 44
-      }))
-    .pipe(gulp.dest('.tmp/images'));
-});
-
-gulp.task('resize-hollister', function() {
-  return gulp.src('app/images/hollister-logo.png')
-    .pipe(imageResize({
-        width: 88,
-        height: 44
-      }))
-    .pipe(gulp.dest('.tmp/images'));
-});
-
-gulp.task('resize-jpmorganchase', function() {
-  return gulp.src('app/images/jpmorganchase-logo.png')
-    .pipe(imageResize({
-        width: 364,
-        height: 44
-      }))
-    .pipe(gulp.dest('.tmp/images'));
-});
-
-gulp.task('resize-surrey', function() {
-  return gulp.src('app/images/surrey-logo.png')
-    .pipe(imageResize({
-        width: 398,
-        height: 118
-      }))
-    .pipe(gulp.dest('.tmp/images'));
-});
-
-gulp.task('resize-tribe', function() {
-  return gulp.src('app/images/tribe-logo.png')
-    .pipe(imageResize({
-        width: 265,
-        height: 96
-      }))
-    .pipe(gulp.dest('.tmp/images'));
-});
-
-gulp.task('resize-waitrose', function() {
-  return gulp.src('app/images/waitrose-logo.png')
-    .pipe(imageResize({
+gulp.task('preimage', function () {
+  return gulp.src('app/images/**/*')
+    .pipe(responsive({
+      'waitrose-logo.png': {
         width: 213,
         height: 44
-      }))
+      },
+      'tribe-logo.png': {
+        width: 265,
+        height: 96
+      },
+      'surrey-logo.png': {
+          width: 398,
+          height: 118
+      },
+      'hollister-logo.png': {
+        width: 109,
+        height: 44
+      },
+      'deutsche-logo.png': {
+        width: 228,
+        height: 44
+      },
+      'chew-logo.png': {
+        width: 109,
+        height: 126
+      },
+      'jpmorganchase-logo.png': {
+        width: 352,
+        height: 44
+      },
+      'intl-tel-input/*.png': {
+        width: '100%',
+        height: '100%'
+      }
+    }))
     .pipe(gulp.dest('.tmp/images'));
 });
 
-gulp.task('preimage', ['generate-favicon'], () => {
-  return gulp.src('app/images/*/*.png')
-    .pipe(gulp.dest('.tmp/images'));
-});
-
-gulp.task('images', ['preimage', 'resize-chew', 'resize-deutsche', 'resize-hollister', 'resize-jpmorganchase', 'resize-surrey', 'resize-tribe', 'resize-waitrose'], () => {
+gulp.task('images', ['preimage'], () => {
   return gulp.src('.tmp/images/**/*')
     .pipe(imagemin({
       progressive: true,
       svgoPlugins: [{removeViewBox: false}],
-      use: [pngquant(), optipng(options)]
+      use: [pngquant(), optipng(optoptions)]
     }))
     .pipe(gulp.dest('dist/images'));
 });
@@ -297,7 +224,7 @@ gulp.task('fonts', () => {
 
 gulp.task('extras', () => {
   return gulp.src([
-    'app/*.*',
+    'app/*',
     '!app/*.html'
   ], {
     dot: true
@@ -306,28 +233,30 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', ['styles', 'scripts', 'fonts'], () => {
-  browserSync({
-    notify: false,
-    port: 9000,
-    server: {
-      baseDir: ['.tmp', 'app'],
-      routes: {
-        '/bower_components': 'bower_components'
+gulp.task('serve', () => {
+  runSequence(['clean', 'wiredep'], ['styles', 'scripts', 'fonts'], () => {
+    browserSync({
+      notify: false,
+      port: 9000,
+      server: {
+        baseDir: ['.tmp', 'app'],
+        routes: {
+          '/bower_components': 'bower_components'
+        }
       }
-    }
+    });
+
+    gulp.watch([
+      'app/*.html',
+        'app/images/**/*',
+      '.tmp/fonts/**/*'
+    ]).on('change', reload);
+
+    gulp.watch('app/styles/**/*.css', ['styles']);
+      gulp.watch('app/scripts/**/*.js', ['scripts']);
+      gulp.watch('app/fonts/**/*', ['fonts']);
+    gulp.watch('bower.json', ['wiredep', 'fonts']);
   });
-
-  gulp.watch([
-    'app/*.html',
-    'app/images/**/*',
-    '.tmp/fonts/**/*'
-  ]).on('change', reload);
-
-  gulp.watch('app/styles/**/*.css', ['styles']);
-  gulp.watch('app/scripts/**/*.js', ['scripts']);
-  gulp.watch('app/fonts/**/*', ['fonts']);
-  gulp.watch('bower.json', ['wiredep', 'fonts']);
 });
 
 gulp.task('serve:dist', () => {
@@ -369,11 +298,23 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'fonts', 'inject-favicon-markups', 'extras'], () => {
-  return gulp.src('dist/**/*')
-    .pipe($.size({title: 'build', gzip: true}));
+gulp.task('build', ['lint', 'html', 'images', 'downloads', 'fonts', 'extras'], () => {
+  return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
-gulp.task('default', ['clean'], () => {
-  gulp.start('build');
+gulp.task('default', () => {
+  runSequence(['clean', 'wiredep'], 'build');
+});
+
+gulp.task('deploy', function() {
+  var args = minimist(process.argv.slice(2));
+  var remotePath = '/';
+  var conn = ftp.create({
+    host: 'ftp.hirealexgrace.com',
+    user: args.user,
+    password: args.password
+    });
+  gulp.src(['dist/**'])
+    .pipe(conn.newer(remotePath))
+    .pipe(conn.dest(remotePath));
 });
