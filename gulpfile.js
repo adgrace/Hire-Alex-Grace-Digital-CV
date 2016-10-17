@@ -332,13 +332,8 @@ gulp.task('deploy', function() {
     user: args.user,
     password: args.password
     });
-  conn.rmdir(remotePath, function (err) {
-    if (err) {
-      console.log(err);
-    } else {  
-      gulp.src(['dist/**'])
-        .pipe(conn.newer(remotePath)) // only upload newer files
-        .pipe(conn.dest(remotePath));
-    }  
-  });
+  return gulp.src(['dist/**'])
+    .pipe(conn.newer(remotePath))
+    .pipe(conn.dest(remotePath))
+    .pipe(conn.clean('dist/**/*', 'dist/**/*', { base: '.' }));
 });
