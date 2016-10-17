@@ -8,6 +8,7 @@ const runSequence = require('run-sequence');
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 // added
+const clean = require('gulp-clean');
 const cssimport = require("gulp-cssimport");
 const glob = require("glob");
 const rename = require("gulp-rename");
@@ -34,7 +35,7 @@ var FAVICON_DATA_FILE = 'faviconData.json';
 gulp.task('generate-favicon', function(done) {
   realFavicon.generateFavicon({
     masterPicture: 'alexgrace.png',
-    dest: 'dist/images/favicon',
+    dest: '.tmp/dist/images/favicon',
     iconsPath: '/',
     design: {
       ios: {
@@ -101,9 +102,14 @@ gulp.task('generate-favicon', function(done) {
 // this task whenever you modify a page. You can keep this task
 // as is or refactor your existing HTML pipeline.
 gulp.task('inject-favicon-markups', ['generate-favicon'], function() {
-  gulp.src([ 'app/*.html' ])
+  return gulp.src([ '.tmp/dist/index.html' ])
     .pipe(realFavicon.injectFaviconMarkups(JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).favicon.html_code))
-    .pipe(gulp.dest('.tmp/*.html'));
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('movehtml', ['inject-favicon-markups'], function() {
+  return gulp.src([ '.tmp/dist/index.html' ])
+    .pipe(clean({force: true}))
 });
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -151,14 +157,14 @@ gulp.task('lint:test', () => {
     .pipe(gulp.dest('test/spec'));
 });
 
-gulp.task('html', ['styles', 'scripts', 'inject-favicon-markups'], () => {
+gulp.task('html', ['styles', 'scripts'], () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.cssimport({})))
     .pipe($.if('*.css', $.cssnano({safe: true, autoprefixer: false})))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('.tmp/dist'));
 });
 
 gulp.task('preimage', function () {
@@ -207,19 +213,18 @@ gulp.task('images', ['preimage'], () => {
       svgoPlugins: [{removeViewBox: false}],
       use: [pngquant(), optipng(optoptions)]
     }))
-    .pipe(gulp.dest('dist/images'));
+    .pipe(gulp.dest('.tmp/dist/images'));
 });
 
 gulp.task('downloads', () => {
   return gulp.src('app/downloads/**/*')
-    .pipe(gulp.dest('dist/downloads'));
+    .pipe(gulp.dest('.tmp/dist/downloads'));
 });
 
 gulp.task('fonts', () => {
   return gulp.src(require('main-bower-files')('**/*.{eot,svg,ttf,woff,woff2}', function (err) {})
     .concat('app/fonts/**/*'))
-    .pipe(gulp.dest('.tmp/fonts'))
-    .pipe(gulp.dest('dist/fonts'));
+    .pipe(gulp.dest('.tmp/dist/fonts'))
 });
 
 gulp.task('extras', () => {
@@ -228,7 +233,16 @@ gulp.task('extras', () => {
     '!app/*.html'
   ], {
     dot: true
-  }).pipe(gulp.dest('dist'));
+  }).pipe(gulp.dest('.tmp/dist'));
+});
+
+gulp.task('cache-control', () => {
+  gulp.src(".tmp/dist/**/*")
+    .pipe($.if('*.pdf', md5(10,'dist/index.html')))
+    .pipe($.if('images/*-logo.png', md5(10,'dist/index.html')))
+    .pipe($.if('*.css', md5(10,'dist/index.html')))
+    .pipe($.if('*.js', md5(10,'dist/index.html')))
+    .pipe(gulp.dest("dist"));
 });
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
@@ -253,8 +267,8 @@ gulp.task('serve', () => {
     ]).on('change', reload);
 
     gulp.watch('app/styles/**/*.css', ['styles']);
-      gulp.watch('app/scripts/**/*.js', ['scripts']);
-      gulp.watch('app/fonts/**/*', ['fonts']);
+    gulp.watch('app/scripts/**/*.js', ['scripts']);
+    gulp.watch('app/fonts/**/*', ['fonts']);
     gulp.watch('bower.json', ['wiredep', 'fonts']);
   });
 });
@@ -298,7 +312,11 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'downloads', 'fonts', 'extras'], () => {
+gulp.task('build-task', function(callback) {
+  runSequence(['lint', 'html', 'images', 'downloads', 'fonts', 'extras'], 'movehtml', 'cache-control', callback);
+});
+
+gulp.task('build', ['build-task'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 

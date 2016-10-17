@@ -12,8 +12,6 @@ addons:
 sudo: required
 dist: trusty
 before_script:
-  - sudo apt-get install imagemagick
-  - sudo apt-get install graphicsmagick
   - npm install -g gulp
   - npm install -g bower
   - bower install

@@ -5,6 +5,10 @@ $(document).ready(function() {
     var $body   = $(document.body);
     var jumbotronHeight = $('.jumbotron').outerHeight(true);
     var navHeight = $('.navbar').outerHeight(true);
+
+    var scripts = document.getElementsByTagName('script'),
+        src = scripts[scripts.length-1].src.split('/'),
+        filename = src[src.length-1];
             
     $('#sidebar').affix({
         offset: {
@@ -62,7 +66,7 @@ $(document).ready(function() {
             });
         },
         initialCountry: 'auto',
-        utilsScript: 'scripts/main.js'
+        utilsScript: 'scripts/'+filename
     });
     
     $('.dropdown-toggle').click(function() {
