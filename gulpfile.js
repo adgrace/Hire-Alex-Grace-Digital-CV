@@ -332,8 +332,10 @@ gulp.task('deploy', function() {
     user: args.user,
     password: args.password
     });
-  return gulp.src(['dist/**'])
-    .pipe(conn.newer(remotePath))
-    .pipe(conn.dest(remotePath))
-    .pipe(conn.clean('dist/*', 'dist/*', { base: '.' }));
+  conn.rmdir( remotePath, function ( err ) {
+    if ( err ) return console.log(err);
+    return gulp.src(['dist/**'])
+      .pipe(conn.newer(remotePath))
+      .pipe(conn.dest(remotePath));
+  })  
 });
