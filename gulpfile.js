@@ -335,5 +335,5 @@ gulp.task('deploy', function() {
   return gulp.src(['dist/**'])
     .pipe(conn.newer(remotePath))
     .pipe(conn.dest(remotePath))
-    .pipe(conn.clean('dist/**/*', 'dist/**/*', { base: '.' }));
+    .pipe(conn.clean('dist/*', 'dist/*', { base: '.' }));
 });
