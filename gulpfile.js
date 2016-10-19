@@ -15,6 +15,7 @@ const rename = require("gulp-rename");
 const md5 = require("gulp-md5-plus");
 const imagemin = require('gulp-imagemin');
 const pngquant = require('imagemin-pngquant');
+const imageminJpegtran = require('imagemin-jpegtran');
 const optipng = require('gulp-optipng');
 var optoptions = ['-o5'];
 const responsive = require('gulp-responsive');
@@ -198,6 +199,14 @@ gulp.task('preimage', function () {
         width: 352,
         height: 44
       },
+      'alex-grace-mobile.jpg': {
+        width: 736,
+        height: 867
+      },
+      'alex-grace.jpg': {
+        width: '100%',
+        height: '100%'
+      },
       'intl-tel-input/*.png': {
         width: '100%',
         height: '100%'
@@ -211,7 +220,7 @@ gulp.task('images', ['preimage'], () => {
     .pipe(imagemin({
       progressive: true,
       svgoPlugins: [{removeViewBox: false}],
-      use: [pngquant(), optipng(optoptions)]
+      use: [pngquant(), optipng(optoptions), imageminJpegtran()]
     }))
     .pipe(gulp.dest('.tmp/dist/images'));
 });
@@ -240,6 +249,7 @@ gulp.task('cache-control', () => {
   gulp.src(".tmp/dist/**/*")
     .pipe($.if('*.pdf', md5(10,'dist/index.html')))
     .pipe($.if('images/*-logo.png', md5(10,'dist/index.html')))
+    .pipe($.if('images/*.jpeg', md5(10,'dist/styles/main.css')))
     .pipe($.if('*.css', md5(10,'dist/index.html')))
     .pipe($.if('*.js', md5(10,'dist/index.html')))
     .pipe(gulp.dest("dist"));

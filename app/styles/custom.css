@@ -10,6 +10,18 @@ html, body {
     overflow-x: hidden;
 }
 
+ul.nav li a, ul.nav li a:visited {
+    color: #000000 !important;
+}
+
+ul.nav li a:hover, ul.nav li a:active {
+    color: #696969 !important;
+}
+
+ul.nav li.active a {
+    color: #696969 !important;
+}
+
 .affix-top,.affix{
   position: static;
 }
@@ -341,6 +353,10 @@ ul.nav li {
     margin: 10px;
 }
 
+.pictureborder {
+    margin: 30px;
+}
+
 .ratingposition {
   position: relative;
   padding:15px;
@@ -506,6 +522,14 @@ ul.nav li {
 height: 100px;
 }
 
+.zindex2 {
+  z-index: 2; /* integer */
+}
+
+.zindex1 {
+  z-index: 1; /* integer */
+}
+
 .alt-image  .img-responsive {
     display: block;
     width: auto;
@@ -514,6 +538,145 @@ height: 100px;
 
 .row-background {
   background-color: #f7f7f7;
+}
+
+.text-background-left {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.text-background-right {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.jumborow-background {
+  background-color: rgba(247, 247, 247, 0.75);
+}
+
+@media(max-width:767px){
+    .text-background-left {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    #AlexGrace {
+      font-size: 66px;
+      padding: 0px;
+      margin: 0px;
+      display:none;
+    }
+
+    #sub-title {
+      font-size: 20px;
+      padding: 0px;
+      margin: 0px; 
+      display:none;
+    }
+
+    .left-jumbotron-text {
+        text-align: center;
+        color: white;
+    }
+
+    .right-jumbotron-text {
+        text-align: center;
+        color: white;
+    }
+
+    .jumbo-text {
+        height:400px;
+        position: relative;
+    }
+
+    .jumbotron {
+        background-image: url("../images/alex-grace-mobile.jpg");
+        background-size: cover;
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        padding-bottom: 0px;
+        padding-top: 10px;
+    }
+}
+@media(min-width:768px){
+    #AlexGrace {
+      font-size: 55px;
+      padding: 0px;
+      margin: 0px;
+      display:none;
+    }
+
+    #sub-title {
+      font-size: 17px;
+      padding: 0px;
+      margin: 0px;
+      display:none;
+    }
+
+    .left-jumbotron-text {
+        text-align: left;
+        color: white;
+    }
+
+    .right-jumbotron-text {
+        text-align: right;
+        color: white;
+    }
+
+    .jumbo-text {
+        height:400px;
+        position: relative;
+    }
+
+    .jumbo-text-row {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .jumbotron {
+        background-image: url("../images/alex-grace.jpg");
+        background-size: cover;
+        background-position: center 33%;
+        background-repeat: no-repeat;
+        padding-bottom: 0px;
+        padding-top: 40px;
+    }
+}
+@media(min-width:992px){
+    #AlexGrace {
+      font-size: 73px;
+      padding: 0px;
+      margin: 0px;
+      display:none;
+    }
+
+    #sub-title {
+      font-size: 22px;
+      padding: 0px;
+      margin: 0px;
+      display:none;
+    }
+
+    .linkfontsize {
+      font-size: 20px !important;
+    }
+}
+@media(min-width:1200px){
+    #AlexGrace {
+      font-size: 89px;
+      padding: 0px;
+      margin: 0px;
+      display:none;
+    }
+
+    #sub-title {
+      font-size: 27px;
+      padding: 0px;
+      margin: 0px;
+      display:none;
+    }
+
+    .linkfontsize {
+      font-size: 20px !important;
+    }
 }
 
 .br-theme-bars-1to10 .br-widget {

@@ -20,6 +20,9 @@ $(document).ready(function() {
 	    target: '#leftCol',
 	    offset: navHeight
     });
+
+    $('#AlexGrace').delay(1500).fadeIn(1000);
+    $('#sub-title').delay(1500).fadeIn(1000);
     
 	$(window).scroll(function () {
 		// set distance user needs to scroll before we fadeIn navbar
@@ -303,6 +306,11 @@ $(document).ready(function() {
 
     $('.uni-image').matchHeight({
         target: $('.uni-text'),
+        property: 'height'
+    });
+
+    $('.jumboheader-image').matchHeight({
+        target: $('.jumboheader-text'),
         property: 'height'
     });
 
