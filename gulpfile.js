@@ -343,7 +343,7 @@ gulp.task('deploy', function() {
     password: args.password
     });
 
-  conn.rmdir('/', function (err) {
+  conn.rmdir('/*', function (err) {
   if (err) {
     return console.log(err);
   } else {  
