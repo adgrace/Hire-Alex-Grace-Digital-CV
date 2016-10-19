@@ -352,3 +352,4 @@ gulp.task('deploy', function() {
       .pipe( conn.dest(remotePath));
   }  
 });
+});
