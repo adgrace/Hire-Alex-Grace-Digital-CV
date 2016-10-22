@@ -1970,7 +1970,7 @@
 								<h4 class="text-center">References available on request.</h4>
 
 								<div class="modal fade" id="contact-modal" role="dialog">
-									<div class="modal-dialog modal-sm">
+									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
 												<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -1985,8 +1985,70 @@
 										</div>
 									</div>
 								</div>
-							</div>
 
+								<div class="modal fade" id="hireAlexContactHim" role="dialog">
+								    <div class="modal-dialog">
+								      	<div class="modal-content">
+								        	<div class="modal-header">
+								          		<button type="button" class="close" data-dismiss="modal">&times;</button>
+								          		<h1 class="modal-title text-center">Like What You See?</h1>
+								        	</div>
+								        	<div class="modal-body">
+								        		<h3 class="text-center">Contact Alex Grace now!</h3>
+								          		<p class="text-center">I hope you like my website and find that my skills are a good fit for your company.<br>I would love to learn about graduate job opportunities at your company.<br>Please complete the form below so I can contact you to find out more!<br>Thank you, Alex Grace</p>
+								          		<form class="form-horizontal" id="contactForm" name="contactForm" role="form" data-toggle="validator">
+													<fieldset>
+														<div class="form-group">
+															<label for="inputName" class="col-xs-3 control-label">Name</label>
+															<div class="col-xs-9">
+																<input type="text" class="form-control" id="inputName" name="inputName" placeholder="Name" required>
+															</div>
+														</div>
+														<div class="form-group">
+															<label for="inputCompany" class="col-xs-3 control-label">Company</label>
+															<div class="col-xs-9">
+																<input type="text" class="form-control" id="inputCompany" name="inputCompany" placeholder="Company" required>
+															</div>
+														</div>
+														<div class="form-group">
+															<label for="inputEmail" class="col-xs-3 control-label">Email</label>
+															<div class="col-xs-9">
+																<input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email" data-error="Please enter a valid email address" required>
+																<div class="help-block with-errors"></div>
+															</div>
+														</div>
+														<div class="form-group">
+															<label for="inputPhone" class="col-xs-3 control-label">Phone</label>
+															<div class="col-xs-9">
+																<input type="tel" class="form-control" id="inputPhone" name="inputPhone" data-phonenumber="phonenumber" data-error="Please enter a valid telephone number" required>
+																<div class="help-block with-errors"></div>
+															</div>
+														</div>
+														<div class="form-group">
+															<label for="inputMessage" class="col-xs-3 control-label">Message</label>
+															<div class="col-xs-9">
+																<textarea class="form-control" rows="3" id="inputMessage" name="inputMessage" placeholder="Message" required></textarea>
+															</div>
+														</div>
+														<div class="form-group">
+															<label for="inputCallBack" class="col-xs-3 control-label">Schedule a callback? (Optional)</label>
+															<div class="col-xs-9">
+																<div class="input-group date"> 
+																	<input type="text" class="form-control" id="inputCallBack" name="inputCallBack" placeholder="Callback Date & Time" readonly>
+																	<span class="input-group-addon "><span class="glyphicon glyphicon-calendar"></span></span>
+																</div>
+															</div>
+														</div>
+														<div class="form-group text-center">
+															<button type="submit" id="submit" class="btn btn-primary" data-dismiss="modal">Send to Alex!</button>
+														</div>
+													</fieldset>
+												</form>
+								        	</div>
+								      	</div>
+								    </div>
+  								</div>
+							</div>
 						</div>
 				</div>
 				<hr>
@@ -1998,7 +2060,6 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
 
 		<!-- build:js scripts/main.js -->
-		<!--<script type="text/javascript" src="/bower_components/jquery/dist/jquery.js"></script>-->
 		<script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
 		<script type="text/javascript" src="/bower_components/moment/min/moment-with-locales.js"></script>
 		<script type="text/javascript" src="/bower_components/jquery-quickfit/jquery.quickfit.js"></script>
