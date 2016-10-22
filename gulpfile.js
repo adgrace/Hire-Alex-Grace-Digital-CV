@@ -343,13 +343,9 @@ gulp.task('deploy', function() {
     password: args.password
     });
 
-  conn.rmdir('/*', function (err) {
-  if (err) {
-    return console.log("***error : " + err);
-  } else {  
+  conn.rmdir('/', function (err) {
     return gulp.src(['dist/**/*'])
       .pipe( conn.newer(remotePath))
-      .pipe( conn.dest(remotePath));
-  }  
-});
+      .pipe( conn.dest(remotePath)); 
+  });
 });
