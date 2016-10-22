@@ -356,7 +356,7 @@ $(document).ready(function() {
         tolerance: 0.1
   	});
 
-    $(window).load(function(){
+    $(window).on('load', function() {
         setTimeout(function(){ $('#hireAlexContact').modal(); }, 5000);
     });
 });
