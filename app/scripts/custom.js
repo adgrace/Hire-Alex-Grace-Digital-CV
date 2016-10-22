@@ -23,10 +23,7 @@ $(document).ready(function() {
 
     $('#AlexGrace').delay(1500).fadeIn(1000);
     $('#sub-title').delay(1500).fadeIn(1000);
-    setTimeout(function() {
-        $('#hireAlexContactHim').modal('show');
-    }, 10000);
-        
+
 	$(window).scroll(function () {
 		// set distance user needs to scroll before we fadeIn navbar
 		if ($(this).scrollTop() > jumbotronHeight - navHeight) {
@@ -358,4 +355,8 @@ $(document).ready(function() {
         min: '14',
         tolerance: 0.1
   	});
+
+    $(window).load(function(){
+        setTimeout(function(){ $('#hireAlexContact').modal(); }, 5000);
+    });
 });
