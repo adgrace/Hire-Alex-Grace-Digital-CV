@@ -400,7 +400,7 @@ $(document).ready(function() {
 
     $('.uni-image').matchHeight({
         target: $('.uni-text'),
-        property: 'height'
+        property: 'max-height'
     });
 
     $('.jumboheader-image').matchHeight({

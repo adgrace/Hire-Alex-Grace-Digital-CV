@@ -537,6 +537,12 @@ height: 100px;
     max-height: 100%;
 }
 
+.img_wide {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+}
+
 .row-background {
   background-color: #f7f7f7;
 }
@@ -685,7 +691,8 @@ height: 100px;
     white-space: nowrap;
 }
 
-.btn-stack-overflow{color:#fff;background-color:#f50;border-color:rgba(0,0,0,0.2)}.btn-stack-overflow:focus,.btn-stack-overflow.focus{color:#fff;background-color:#c40;border-color:rgba(0,0,0,0.2)}
+.btn-stack-overflow{color:#fff;background-color:#f50;border-color:rgba(0,0,0,0.2)}
+.btn-stack-overflow:focus,.btn-stack-overflow.focus{color:#fff;background-color:#c40;border-color:rgba(0,0,0,0.2)}
 .btn-stack-overflow:hover{color:#fff;background-color:#c40;border-color:rgba(0,0,0,0.2)}
 .btn-stack-overflow:active,.btn-stack-overflow.active,.open>.dropdown-toggle.btn-stack-overflow{color:#fff;background-color:#c40;border-color:rgba(0,0,0,0.2)}.btn-stack-overflow:active:hover,.btn-stack-overflow.active:hover,.open>.dropdown-toggle.btn-stack-overflow:hover,.btn-stack-overflow:active:focus,.btn-stack-overflow.active:focus,.open>.dropdown-toggle.btn-stack-overflow:focus,.btn-stack-overflow:active.focus,.btn-stack-overflow.active.focus,.open>.dropdown-toggle.btn-stack-overflow.focus{color:#fff;background-color:#a83800;border-color:rgba(0,0,0,0.2)}
 .btn-stack-overflow:active,.btn-stack-overflow.active,.open>.dropdown-toggle.btn-stack-overflow{background-image:none}
