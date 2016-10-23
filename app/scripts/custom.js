@@ -59,8 +59,36 @@ $(document).ready(function() {
         var TimeZoned = new Date(e.date.setTime(e.date.getTime() + (e.date.getTimezoneOffset() * 60000)));
         $('#inputCallBack').datetimepicker('setDate', TimeZoned);
     });
+
+    $('#inputCallBackPopup').datetimepicker({
+        format: 'mm/dd/yyyy hh:ii Z',
+        timezone: 'GMT',
+        weekStart: 1,
+        startDate: '+1d',
+        endDate: '+60d',
+        autoclose: true,
+        pickerPosition: 'top-left',
+        maxView: 60,
+        minuteStep: 15,
+        fontAwesome: true
+    }).on('changeDate', function(e) {
+        var TimeZoned = new Date(e.date.setTime(e.date.getTime() + (e.date.getTimezoneOffset() * 60000)));
+        $('#inputCallBack').datetimepicker('setDate', TimeZoned);
+    });
     
     $('#inputPhone').intlTelInput({
+        nationalMode: true,
+        geoIpLookup: function(callback) {
+            $.get('http://ipinfo.io', function() {}, 'jsonp').always(function(resp) {
+                var countryCode = (resp && resp.country) ? resp.country : '';
+                callback(countryCode);
+            });
+        },
+        initialCountry: 'auto',
+        utilsScript: 'scripts/'+filename
+    });
+
+    $('#inputPhonePopup').intlTelInput({
         nationalMode: true,
         geoIpLookup: function(callback) {
             $.get('http://ipinfo.io', function() {}, 'jsonp').always(function(resp) {
@@ -123,6 +151,72 @@ $(document).ready(function() {
                     if(data.status == 'success'){
                         $('.modal-title').html('Thank you for the message');
                         document.getElementById('contactForm').reset()
+                        if (inputCallBack == '') {
+                             $('.modal-body').html('Your message has been sent to me and I will reply as soon as possible.');
+                        } else {
+                             $('.modal-body').html('Your message has been sent to me and I look forward to speaking to you soon and finding out more about opportunites at ' + inputCompany + '.<br /><br />Phone Number: ' + inputPhone + '<br />Callback Date and Time: ' + inputCallBack);
+                        }
+                        $('#contact-modal').modal('show');
+                    }else if(data.status == 'error'){
+                        $('.modal-title').html('This is awkward');
+                        $('.modal-body').html('I really want to be in contact with you but there seems to have been an error.<br />Please try resubmitted the form or alternatively email me (alex@grace6.plus.com)');
+                        $('#contact-modal').modal('show');
+                    }
+                },
+                error: function() {
+                    $('.modal-title').html('This is awkward');
+                    $('.modal-body').html('I really want to be in contact with you but there seems to have been an error.<br />Please try resubmitted the form or alternatively email me (alex@grace6.plus.com)');
+                    $('#contact-modal').modal('show');
+                }
+            });
+            return false;
+        }
+    });
+
+    $('#contactFormPopup').validator({
+        custom: {
+            'phonenumber': function($el) {
+                var bool = $el.intlTelInput('isValidNumber');
+                if (bool == false){
+                    return true;
+                }
+            }
+        },
+        errors: {
+            odd: 'Please enter a valid telephone number'
+        }
+    });
+    
+    
+    $('#contactFormPopup').validator().on('submitPopup', function (e) {
+        console.log('submit');
+        if (e.isDefaultPrevented()) {
+            // handle the invalid form...
+            $('#contactFormPopup').validator('validate');
+            $('.modal-title').html('I really want to get in contact with you but...');
+            $('.modal-body').html('Please complete all fields');
+            $('#contact-modal').modal('show');
+        } else {
+            // everything looks good!
+            e.preventDefault();
+            var inputName = $('#inputNamePopup').val();
+            var inputCompany = $('#inputCompanyPopup').val();
+            var inputEmail = $('#inputEmailPopup').val();
+            var inputPhone = $('#inputPhonePopup').intlTelInput('getNumber');
+            var inputMessage = $('#inputMessagePopup').val();
+            var inputCallBack = $('#inputCallBackPopup').val();
+            var dataString = {'inputName' : inputName, 'inputCompany' : inputCompany, 'inputEmail' : inputEmail , 'inputPhone' : inputPhone, 'inputMessage' : inputMessage , 'inputCallBack' : inputCallBack};
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                url: 'contact-form-handler.php',
+                data: dataString,
+                dataType: 'json',
+                async: false,
+                success: function(data) {
+                    if(data.status == 'success'){
+                        $('.modal-title').html('Thank you for the message');
+                        document.getElementById('contactFormPopup').reset()
                         if (inputCallBack == '') {
                              $('.modal-body').html('Your message has been sent to me and I will reply as soon as possible.');
                         } else {
@@ -357,6 +451,6 @@ $(document).ready(function() {
   	});
 
     $(window).on('load', function() {
-        setTimeout(function(){ $('#hireAlexContact').modal(); }, 5000);
+        setTimeout(function(){ $('#hireAlexContact').modal(); }, 20000);
     });
 });
