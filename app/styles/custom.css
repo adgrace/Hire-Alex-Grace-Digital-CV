@@ -381,7 +381,7 @@ ul.nav li {
 
 #CPPPanel {
     transition: background-color 0.5s ease;
-    background-color: #7FCAFF;
+    background-color: #FFDB7E;
     cursor: pointer;
 }
 
@@ -393,7 +393,7 @@ ul.nav li {
 
 #JavascriptPanel {
     transition: background-color 0.5s ease;
-    background-color: #FFDB7E;
+    background-color: #FDF06B;
     cursor: pointer;
 }
 
@@ -429,7 +429,13 @@ ul.nav li {
 
 #UnixPanel {
     transition: background-color 0.5s ease;
-    background-color: #FDF06B;
+    background-color: #77dd88;
+    cursor: pointer;
+}
+
+#GitPanel {
+    transition: background-color 0.5s ease;
+    background-color: #7FCAFF;
     cursor: pointer;
 }
 
@@ -441,7 +447,7 @@ ul.nav li {
 
 #MatlabPanel {
     transition: background-color 0.5s ease;
-    background-color: #62F5C8;
+    background-color: #CAF562;
     cursor: pointer;
 }
 
@@ -453,7 +459,7 @@ ul.nav li {
 
 #CloudPanel {
     transition: background-color 0.5s ease;
-    background-color: #CAF562;
+    background-color: #77dd88;
     cursor: pointer;
 }
 

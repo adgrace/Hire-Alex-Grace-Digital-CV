@@ -123,7 +123,7 @@ $(document).ready(function() {
     
     
     $('#contactForm').validator().on('submit', function (e) {
-        console.log('submit');
+        console.log('submitnormal');
         if (e.isDefaultPrevented()) {
             // handle the invalid form...
             $('#contactForm').validator('validate');
@@ -188,8 +188,8 @@ $(document).ready(function() {
     });
     
     
-    $('#contactFormPopup').validator().on('submitPopup', function (e) {
-        console.log('submit');
+    $('#contactFormPopup').validator().on('submit', function (e) {
+        console.log('submitpopup');
         if (e.isDefaultPrevented()) {
             // handle the invalid form...
             $('#contactFormPopup').validator('validate');
@@ -297,7 +297,7 @@ $(document).ready(function() {
     });
     $('.CPP').barrating({
         theme: 'bars-1to10',
-        initialRating: '3',
+        initialRating: '4',
         readonly: true,
         showSelectedRating: false
     });
@@ -344,6 +344,12 @@ $(document).ready(function() {
         showSelectedRating: false
     });
    	$('.Unix').barrating({
+        theme: 'bars-1to10',
+        initialRating: '4',
+        readonly: true,
+        showSelectedRating: false
+    });
+    $('.Git').barrating({
         theme: 'bars-1to10',
         initialRating: '4',
         readonly: true,
