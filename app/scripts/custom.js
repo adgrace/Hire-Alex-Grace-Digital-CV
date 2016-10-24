@@ -188,7 +188,7 @@ $(document).ready(function() {
     });
     
     
-    $('#contactFormPopup').validator().on('submit', function (e) {
+    $('#contactFormPopup').validator().on('popupsubmit', function (e) {
         console.log('submitpopup');
         if (e.isDefaultPrevented()) {
             // handle the invalid form...
