@@ -249,7 +249,7 @@ gulp.task('cache-control', () => {
   gulp.src(".tmp/dist/**/*")
     .pipe($.if('*.pdf', md5(10,'dist/index.html')))
     .pipe($.if('images/*-logo.png', md5(10,'dist/index.html')))
-    .pipe($.if('images/*.jpg', md5(10,'dist/styles/main.css')))
+    .pipe($.if('images/*.jpg', md5(10,'.tmp/styles/main.css')))
     .pipe($.if('*.css', md5(10,'dist/index.html')))
     .pipe($.if('*.js', md5(10,'dist/index.html')))
     .pipe(gulp.dest("dist"));
