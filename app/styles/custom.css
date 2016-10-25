@@ -405,7 +405,7 @@ ul.nav li {
 
 #SwiftPanel {
     transition: background-color 0.5s ease;
-    background-color: #CAF562;
+    background-color: #77dd88;
     cursor: pointer;
 }
 
@@ -429,7 +429,7 @@ ul.nav li {
 
 #UnixPanel {
     transition: background-color 0.5s ease;
-    background-color: #77dd88;
+    background-color: #CAF562;
     cursor: pointer;
 }
 
@@ -447,7 +447,7 @@ ul.nav li {
 
 #MatlabPanel {
     transition: background-color 0.5s ease;
-    background-color: #CAF562;
+    background-color: #77dd88;
     cursor: pointer;
 }
 
@@ -459,7 +459,7 @@ ul.nav li {
 
 #CloudPanel {
     transition: background-color 0.5s ease;
-    background-color: #77dd88;
+    background-color: #CAF562;
     cursor: pointer;
 }
 
@@ -689,6 +689,79 @@ height: 100px;
 
     .linkfontsize {
       font-size: 20px !important;
+    }
+}
+
+.modal-body-touch {
+    min-height: 100px;
+    max-height: 300px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (min-height: 600px) {
+    .modal-body-touch {
+        max-height: 580px;
+    }
+}
+
+@media (min-height: 700px) {
+    .modal-body-touch {
+        max-height: 680px;
+    }
+}
+
+@media (min-height: 800px) {
+    .modal-body-touch {
+        max-height: 780px;
+    }
+}
+
+@media (min-height: 900px) {
+    .modal-body-touch {
+        max-height: 880px;
+    }
+}
+
+@media (min-height: 1000px) {
+    .modal-body-touch {
+        max-height: 980px;
+    }
+}
+
+@media (min-height: 1100px) {
+    .modal-body-touch {
+        max-height: 1080px;
+    }
+}
+
+@media (min-height: 1200px) {
+    .modal-body-touch-body {
+        max-height: 1180px;
+    }
+}
+
+@media (min-height: 1300px) {
+    .modal-body-touch {
+        max-height: 1280px;
+    }
+}
+
+@media (min-height: 1400px) {
+    .modal-body-touch {
+        max-height: 1380px;
+    }
+}
+
+@media (min-height: 1500px) {
+    .modal-body-touch {
+        max-height: 1480px;
+    }
+}
+
+@media (min-height: 1600px) {
+    .modal-body-touch {
+        max-height: 1580px;
     }
 }
 
