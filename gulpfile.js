@@ -36,7 +36,7 @@ var FAVICON_DATA_FILE = 'faviconData.json';
 gulp.task('generate-favicon', function(done) {
   realFavicon.generateFavicon({
     masterPicture: 'alexgrace.png',
-    dest: '.tmp/dist/images/favicon',
+    dest: '.tmp/dist',
     iconsPath: '/',
     design: {
       ios: {
