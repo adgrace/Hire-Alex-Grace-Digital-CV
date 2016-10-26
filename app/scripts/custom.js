@@ -127,8 +127,8 @@ $(document).ready(function() {
         if (e.isDefaultPrevented()) {
             // handle the invalid form...
             $('#contactForm').validator('validate');
-            $('.modal-title').html('I really want to get in contact with you but...');
-            $('.modal-body').html('Please complete all fields');
+            $('.submit-title').html('I really want to get in contact with you but...');
+            $('.submit-body').html('Please complete all fields');
             $('#contact-modal').modal('show');
         } else {
             // everything looks good!
@@ -149,23 +149,23 @@ $(document).ready(function() {
                 async: false,
                 success: function(data) {
                     if(data.status == 'success'){
-                        $('.modal-title').html('Thank you for the message');
+                        $('.submit-title').html('Thank you for the message');
                         document.getElementById('contactForm').reset()
                         if (inputCallBack == '') {
-                             $('.modal-body').html('Your message has been sent to me and I will reply as soon as possible.');
+                             $('.submit-body').html('Your message has been sent to me and I will reply as soon as possible.');
                         } else {
-                             $('.modal-body').html('Your message has been sent to me and I look forward to speaking to you soon and finding out more about opportunites at ' + inputCompany + '.<br /><br />Phone Number: ' + inputPhone + '<br />Callback Date and Time: ' + inputCallBack);
+                             $('.submit-body').html('Your message has been sent to me and I look forward to speaking to you soon and finding out more about opportunites at ' + inputCompany + '.<br /><br />Phone Number: ' + inputPhone + '<br />Callback Date and Time: ' + inputCallBack);
                         }
                         $('#contact-modal').modal('show');
                     }else if(data.status == 'error'){
-                        $('.modal-title').html('This is awkward');
-                        $('.modal-body').html('I really want to be in contact with you but there seems to have been an error.<br />Please try resubmitted the form or alternatively email me (alex@grace6.plus.com)');
+                        $('.submit-title').html('This is awkward');
+                        $('.submit-body').html('I really want to be in contact with you but there seems to have been an error.<br />Please try resubmitted the form or alternatively email me (alex@grace6.plus.com)');
                         $('#contact-modal').modal('show');
                     }
                 },
                 error: function() {
-                    $('.modal-title').html('This is awkward');
-                    $('.modal-body').html('I really want to be in contact with you but there seems to have been an error.<br />Please try resubmitted the form or alternatively email me (alex@grace6.plus.com)');
+                    $('.submit-title').html('This is awkward');
+                    $('.submit-body').html('I really want to be in contact with you but there seems to have been an error.<br />Please try resubmitted the form or alternatively email me (alex@grace6.plus.com)');
                     $('#contact-modal').modal('show');
                 }
             });
@@ -187,15 +187,11 @@ $(document).ready(function() {
         }
     });
     
-    
-    $('#contactFormPopup').validator().on('popupsubmit', function (e) {
+    $('#contactFormPopup').validator().on('click', '#popupsubmit', function (e) {
         console.log('submitpopup');
-        if (e.isDefaultPrevented()) {
+        if ($('#contactFormPopup').validator('validate').has('.has-error').length) {
             // handle the invalid form...
             $('#contactFormPopup').validator('validate');
-            $('.modal-title').html('I really want to get in contact with you but...');
-            $('.modal-body').html('Please complete all fields');
-            $('#contact-modal').modal('show');
         } else {
             // everything looks good!
             e.preventDefault();
@@ -215,23 +211,26 @@ $(document).ready(function() {
                 async: false,
                 success: function(data) {
                     if(data.status == 'success'){
-                        $('.modal-title').html('Thank you for the message');
+                        $('.submit-title').html('Thank you for the message');
                         document.getElementById('contactFormPopup').reset()
                         if (inputCallBack == '') {
-                             $('.modal-body').html('Your message has been sent to me and I will reply as soon as possible.');
+                             $('.submit-body').html('Your message has been sent to me and I will reply as soon as possible.');
                         } else {
-                             $('.modal-body').html('Your message has been sent to me and I look forward to speaking to you soon and finding out more about opportunites at ' + inputCompany + '.<br /><br />Phone Number: ' + inputPhone + '<br />Callback Date and Time: ' + inputCallBack);
+                             $('.submit-body').html('Your message has been sent to me and I look forward to speaking to you soon and finding out more about opportunites at ' + inputCompany + '.<br /><br />Phone Number: ' + inputPhone + '<br />Callback Date and Time: ' + inputCallBack);
                         }
+                        $('#hireAlexContact').modal('hide');
                         $('#contact-modal').modal('show');
                     }else if(data.status == 'error'){
-                        $('.modal-title').html('This is awkward');
-                        $('.modal-body').html('I really want to be in contact with you but there seems to have been an error.<br />Please try resubmitted the form or alternatively email me (alex@grace6.plus.com)');
+                        $('.submit-title').html('This is awkward');
+                        $('.submit-body').html('I really want to be in contact with you but there seems to have been an error.<br />Please try resubmitted the form or alternatively email me (alex@grace6.plus.com)');
+                        $('#hireAlexContact').modal('hide');
                         $('#contact-modal').modal('show');
                     }
                 },
                 error: function() {
-                    $('.modal-title').html('This is awkward');
-                    $('.modal-body').html('I really want to be in contact with you but there seems to have been an error.<br />Please try resubmitted the form or alternatively email me (alex@grace6.plus.com)');
+                    $('.submit-title').html('This is awkward');
+                    $('.submit-body').html('I really want to be in contact with you but there seems to have been an error.<br />Please try resubmitted the form or alternatively email me (alex@grace6.plus.com)');
+                    $('#hireAlexContact').modal('hide');
                     $('#contact-modal').modal('show');
                 }
             });

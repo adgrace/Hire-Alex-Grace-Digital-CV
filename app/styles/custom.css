@@ -607,7 +607,12 @@ height: 100px;
         padding-bottom: 0px;
         padding-top: 10px;
     }
+
+    .center-align-xs {
+        text-align: center;
+    }
 }
+
 @media(min-width:768px){
     #AlexGrace {
       font-size: 55px;

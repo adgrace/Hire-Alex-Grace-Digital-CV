@@ -36,8 +36,8 @@ var FAVICON_DATA_FILE = 'faviconData.json';
 gulp.task('generate-favicon', function(done) {
   realFavicon.generateFavicon({
     masterPicture: 'alexgrace.png',
-    dest: '.tmp/dist',
-    iconsPath: '/',
+    dest: '.tmp/dist/images/favicon',
+    iconsPath: 'images/favicon',
     design: {
       ios: {
         pictureAspect: 'backgroundAndMargin',
@@ -245,13 +245,38 @@ gulp.task('extras', () => {
   }).pipe(gulp.dest('.tmp/dist'));
 });
 
-gulp.task('cache-control', () => {
-  gulp.src(".tmp/dist/**/*")
+gulp.task('downloads-cache-control', () => {
+  return gulp.src(".tmp/dist/downloads/*")
     .pipe($.if('*.pdf', md5(10,'dist/index.html')))
-    .pipe($.if('images/*-logo.png', md5(10,'dist/index.html')))
-    .pipe($.if('images/*.jpg', md5(10,'.tmp/styles/main.css')))
-    .pipe($.if('*.css', md5(10,'dist/index.html')))
+    .pipe(gulp.dest("dist/downloads"));
+});
+
+gulp.task('images-cache-control', () => {
+  return gulp.src(".tmp/dist/images/**/*")
+    .pipe($.if('*-logo.png', md5(10,'dist/index.html')))
+    .pipe($.if('*.jpg', md5(10,'.tmp/dist/styles/main.css')))
+    .pipe(gulp.dest("dist/images"));
+});
+
+gulp.task('scripts-cache-control', () => {
+  return gulp.src(".tmp/dist/scripts/*")
     .pipe($.if('*.js', md5(10,'dist/index.html')))
+    .pipe(gulp.dest("dist/scripts"));
+});
+
+gulp.task('styles-cache-control', () => {
+  return gulp.src(".tmp/dist/styles/*")
+    .pipe($.if('*.css', md5(10,'dist/index.html')))
+    .pipe(gulp.dest("dist/styles"));
+});
+
+gulp.task('movefonts', () => {
+  return gulp.src(".tmp/dist/fonts/*")
+    .pipe(gulp.dest("dist/fonts"));
+});
+
+gulp.task('movephp', () => {
+  return gulp.src("app/*.php")
     .pipe(gulp.dest("dist"));
 });
 
@@ -272,7 +297,7 @@ gulp.task('serve', () => {
 
     gulp.watch([
       'app/*.html',
-        'app/images/**/*',
+      'app/images/**/*',
       '.tmp/fonts/**/*'
     ]).on('change', reload);
 
@@ -323,7 +348,7 @@ gulp.task('wiredep', () => {
 });
 
 gulp.task('build-task', function(callback) {
-  runSequence(['lint', 'html', 'images', 'downloads', 'fonts', 'extras'], 'movehtml', 'cache-control', callback);
+  runSequence(['lint', 'html', 'images', 'downloads', 'fonts', 'extras'], ['movehtml','movefonts', 'movephp'], ['downloads-cache-control', 'images-cache-control', 'scripts-cache-control'], 'styles-cache-control', callback);
 });
 
 gulp.task('build', ['build-task'], () => {
