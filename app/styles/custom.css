@@ -74,7 +74,7 @@ ul.nav li.active a {
     border-right-width:4px;
 }
 
-@media only screen and (min-width : 767px) {
+@media only screen and (min-width : 768px) {
     .dropdown:hover .dropdown-menu {
         display: block;
     }

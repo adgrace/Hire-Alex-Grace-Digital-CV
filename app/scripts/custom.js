@@ -456,6 +456,6 @@ $(document).ready(function() {
   	});
 
     $(window).on('load', function() {
-        setTimeout(function(){ $('#hireAlexContact').modal(); }, 10000);
+        setTimeout(function(){ $('#hireAlexContact').modal(); }, 60000);
     });
 });
