@@ -100,12 +100,6 @@ $(document).ready(function() {
         utilsScript: 'scripts/'+filename
     });
     
-    $('.dropdown-toggle').click(function() {
-        var location = $(this).attr('href');
-        window.location.href = location;
-        return false;
-    });
-   
         
     $('#contactForm').validator({
         custom: {
