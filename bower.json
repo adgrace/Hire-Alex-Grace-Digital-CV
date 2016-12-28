@@ -13,7 +13,7 @@
     "bootswatch-dist": "readable",
     "bootstrap-social": "^5.0.0"
   },
-  "resolutions": { "font-awesome": "~4.6.3" },
+  "resolutions": { "font-awesome": "~4.7.0" },
   "overrides": {
     "bootstrap": {
       "main": [
