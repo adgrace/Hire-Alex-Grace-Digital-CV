@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	'use strict';
 	$('.navbar').hide();
-	
+
     var $body   = $(document.body);
     var jumbotronHeight = $('.jumbotron').outerHeight(true);
     var navHeight = $('.navbar').outerHeight(true);
@@ -9,7 +9,7 @@ $(document).ready(function() {
     var scripts = document.getElementsByTagName('script'),
         src = scripts[scripts.length-1].src.split('/'),
         filename = src[src.length-1];
-            
+
     $('#sidebar').affix({
         offset: {
             top: jumbotronHeight- navHeight
@@ -32,7 +32,7 @@ $(document).ready(function() {
 			$('.navbar').fadeOut();
 		}
 	});
-    
+
     $('.sidebar li a').click(function (event) {
         var navOffset = $('.navbar').outerHeight(true);
         var scrollPos = $('body > .container').find($(this).attr('href')).offset().top - navOffset+1;
@@ -43,7 +43,7 @@ $(document).ready(function() {
         });
         return false;
     });
-    
+
     $('#inputCallBack').datetimepicker({
         format: 'mm/dd/yyyy hh:ii Z',
         timezone: 'GMT',
@@ -75,7 +75,7 @@ $(document).ready(function() {
         var TimeZoned = new Date(e.date.setTime(e.date.getTime() + (e.date.getTimezoneOffset() * 60000)));
         $('#inputCallBack').datetimepicker('setDate', TimeZoned);
     });
-    
+
     $('#inputPhone').intlTelInput({
         nationalMode: true,
         geoIpLookup: function(callback) {
@@ -99,8 +99,8 @@ $(document).ready(function() {
         initialCountry: 'auto',
         utilsScript: 'scripts/'+filename
     });
-    
-        
+
+
     $('#contactForm').validator({
         custom: {
             'phonenumber': function($el) {
@@ -114,8 +114,8 @@ $(document).ready(function() {
             odd: 'Please enter a valid telephone number'
         }
     });
-    
-    
+
+
     $('#contactForm').validator().on('submit', function (e) {
         console.log('submitnormal');
         if (e.isDefaultPrevented()) {
@@ -180,7 +180,7 @@ $(document).ready(function() {
             odd: 'Please enter a valid telephone number'
         }
     });
-    
+
     $('#contactFormPopup').validator().on('click', '#popupsubmit', function (e) {
         console.log('submitpopup');
         if ($('#contactFormPopup').validator('validate').has('.has-error').length) {
@@ -236,7 +236,7 @@ $(document).ready(function() {
     $('#HideShowDeutsche').click(function(){
         $('#Deutsche').collapse('toggle');
 		if($('#HideShowDeutsche').attr('aria-expanded') === 'false'){
-			$('#HideShowDeutsche').html('<p>More Details <i class="fa fa-chevron-up rotate down"></p>');			
+			$('#HideShowDeutsche').html('<p>More Details <i class="fa fa-chevron-up rotate down"></p>');
 		} else {
 			$('#HideShowDeutsche').html('<p>Less Details <i class="fa fa-chevron-up rotate"></p>');
 		}
@@ -244,7 +244,7 @@ $(document).ready(function() {
     $('#HideShowJPMorganChase').click(function(){
         $('#JPMorganChase').collapse('toggle');
 		if($('#HideShowJPMorganChase').attr('aria-expanded') === 'false'){
-			$('#HideShowJPMorganChase').html('<p>More Details <i class="fa fa-chevron-up rotate down"></p>');			
+			$('#HideShowJPMorganChase').html('<p>More Details <i class="fa fa-chevron-up rotate down"></p>');
 		} else {
 			$('#HideShowJPMorganChase').html('<p>Less Details <i class="fa fa-chevron-up rotate"></p>');
 		}
@@ -252,7 +252,7 @@ $(document).ready(function() {
     $('#HideShowStudentLifeMentor').click(function(){
         $('#StudentLifeMentor').collapse('toggle');
 		if($('#HideShowStudentLifeMentor').attr('aria-expanded') === 'false'){
-			$('#HideShowStudentLifeMentor').html('<p>More Details <i class="fa fa-chevron-up rotate down"></p>');			
+			$('#HideShowStudentLifeMentor').html('<p>More Details <i class="fa fa-chevron-up rotate down"></p>');
 		} else {
 			$('#HideShowStudentLifeMentor').html('<p>Less Details <i class="fa fa-chevron-up rotate"></p>');
 		}
@@ -260,7 +260,7 @@ $(document).ready(function() {
     $('#HideShowHollister').click(function(){
         $('#Hollister').collapse('toggle');
 		if($('#HideShowHollister').attr('aria-expanded') === 'false'){
-			$('#HideShowHollister').html('<p>More Details <i class="fa fa-chevron-up rotate down"></p>');			
+			$('#HideShowHollister').html('<p>More Details <i class="fa fa-chevron-up rotate down"></p>');
 		} else {
 			$('#HideShowHollister').html('<p>Less Details <i class="fa fa-chevron-up rotate"></p>');
 		}
@@ -268,7 +268,7 @@ $(document).ready(function() {
     $('#HideShowWaitrose').click(function(){
         $('#Waitrose').collapse('toggle');
 		if($('#HideShowWaitrose').attr('aria-expanded') === 'false'){
-			$('#HideShowWaitrose').html('<p>More Details <i class="fa fa-chevron-up rotate down"></p>');			
+			$('#HideShowWaitrose').html('<p>More Details <i class="fa fa-chevron-up rotate down"></p>');
 		} else {
 			$('#HideShowWaitrose').html('<p>Less Details <i class="fa fa-chevron-up rotate"></p>');
 		}
@@ -276,12 +276,12 @@ $(document).ready(function() {
     $('#HideShowCastle').click(function(){
         $('#Castle').collapse('toggle');
 		if($('#HideShowCastle').attr('aria-expanded') === 'false'){
-			$('#HideShowCastle').html('<p>More Details <i class="fa fa-chevron-up rotate down"></p>');			
+			$('#HideShowCastle').html('<p>More Details <i class="fa fa-chevron-up rotate down"></p>');
 		} else {
 			$('#HideShowCastle').html('<p>Less Details <i class="fa fa-chevron-up rotate"></p>');
 		}
 	});
-    
+
     $('.C').barrating({
         theme: 'bars-1to10',
         initialRating: '4',
@@ -348,8 +348,8 @@ $(document).ready(function() {
         readonly: true,
         showSelectedRating: false
     });
-   
-   
+
+
     $('.Informatica').barrating({
         theme: 'bars-1to10',
         initialRating: '5',
@@ -386,13 +386,13 @@ $(document).ready(function() {
         readonly: true,
         showSelectedRating: false
     });
-   
+
     $('.match-languages-text').matchHeight();
 
     $('.match-software-text').matchHeight();
 
     $('.match-language').matchHeight();
-  
+
     $('.match-software').matchHeight();
 
     $('.match-achievements').matchHeight();
@@ -442,7 +442,7 @@ $(document).ready(function() {
         target: $('.waitrose-text'),
         property: 'height'
         });
-  
+
     $('.quickfit').quickfit({
        	max: '28',
         min: '14',
@@ -450,6 +450,7 @@ $(document).ready(function() {
   	});
 
     $(window).on('load', function() {
-        setTimeout(function(){ $('#hireAlexContact').modal(); }, 60000);
+      setTimeout(function(){ $('#hireAlexContact').modal(); }, 60000);
+      setTimeout(function(){ $('#outDated').modal(); }, 0);
     });
 });
